@@ -1,0 +1,409 @@
+/* 基本重設與平滑滾動設定 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #fbfaf6;
+  color: #2b2b2b;
+  line-height: 1.7;
+}
+
+/* 版面共用置中容器 */
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* =========================================
+   Topbar 導覽列 (依據第五張圖範例)
+   ========================================= */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(251, 250, 246, 0.95);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding: 20px 0;
+}
+
+.topbar .page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.nav {
+  display: flex;
+  gap: 30px;
+  list-style: none;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #444;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  transition: color 0.2s ease;
+}
+
+.nav a:hover {
+  color: #8c5a4b;
+}
+
+/* =========================================
+   Hero 主視覺區塊
+   ========================================= */
+.hero {
+  background-image: 
+    linear-gradient(
+      to right, 
+      rgba(10, 14, 18, 0.90) 0%,    /* 最左邊：90% 濃度的深黑，讓左邊非常暗 */
+      rgba(10, 14, 18, 0.70) 40%,   /* 左側文字區結束處（40%位置）：維持 70% 暗度，確保白字清楚 */
+      rgba(10, 14, 18, 0.15) 75%,   /* 往右過渡（75%位置）：大幅變亮，只留 15% 暗度 */
+      rgba(10, 14, 18, 0.00) 100%   /* 最右邊（100%位置）：0% 完全透明，呈現圖片原本 100% 的亮度 */
+    ),
+    url('japan-1200x729.jpg');
+  background-size: cover;
+  background-position: center;
+  color: #ffffff;
+  padding: 130px 0 120px;
+}
+
+.hero-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 4.2rem;
+  font-weight: 400;
+  line-height: 1.08;
+  margin-bottom: 26px;
+}
+
+.hero-divider {
+  width: 40px;
+  height: 1.5px;
+  background-color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 22px;
+}
+
+.hero-sub {
+  max-width: 420px;
+  font-size: 0.92rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 300;
+}
+
+/* =========================================
+   內容區塊共用樣式 (01, 02, 03)
+   ========================================= */
+.section {
+  padding: 90px 0;
+  /* 預留頂部導覽列高度，避免點擊跳轉時標題被遮擋 */
+  scroll-margin-top: 65px;
+}
+
+.section + .section {
+  padding-top: 40px;
+}
+
+.section-kicker {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8c5a4b;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: #1c1c1c;
+  margin-bottom: 42px;
+  line-height: 1.2;
+}
+
+/* 左右雙欄排版 (01 & 02) */
+.split-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 56px;
+}
+
+.text-col {
+  flex: 1;
+}
+
+.text-col h3 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #222;
+  margin-bottom: 18px;
+}
+
+.text-col p {
+  font-size: 0.92rem;
+  color: #555;
+  margin-bottom: 18px;
+}
+
+.text-col .quote {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-style: italic;
+  color: #777;
+  margin-top: 24px;
+}
+
+.img-col {
+  flex: 1.1;
+}
+
+.img-col img {
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+
+/* =========================================
+   03 / PHOTO JOURNAL (Gallery 與 Overlay 效果)
+   ========================================= */
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 36px;
+}
+
+.gallery-header .section-title {
+  margin-bottom: 0;
+}
+
+.gallery-intro {
+  font-size: 0.82rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+.gallery-grid {
+  display: flex;
+  gap: 22px;
+}
+
+.photo-card {
+  position: relative;
+  flex: 1;
+  height: 360px;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.photo-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+/* 遮罩層：預設透明，滑鼠移入時淡入 */
+.photo-card .overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(68, 46, 42, 0.82);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 48px;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  text-align: center;
+  color: #ffffff;
+}
+
+.photo-card .overlay h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.55rem;
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.photo-card .overlay span {
+  font-size: 0.68rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Hover 觸發淡入與輕微放大效果 */
+.photo-card:hover .overlay {
+  opacity: 1;
+}
+
+.photo-card:hover img {
+  transform: scale(1.04);
+}
+
+.gallery-caption {
+  margin-top: 14px;
+  font-size: 0.75rem;
+  color: #888;
+}
+
+/* =========================================
+   TRAVEL PLANNER (行程表與預算表樣式)
+   ========================================= */
+.planner-title {
+  margin-bottom: 12px;
+}
+
+.planner-sub {
+  font-size: 0.88rem;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+.budget-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 400;
+  color: #1c1c1c;
+  margin-top: 64px;
+  margin-bottom: 8px;
+}
+
+.planner-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #fcfbf9;
+  font-size: 0.85rem;
+}
+
+.planner-table th,
+.planner-table td {
+  border: 1px solid #e4e1d8;
+  padding: 16px 20px;
+  text-align: left;
+}
+
+/* 表頭深色背景 */
+.planner-table thead th {
+  background-color: #232b28;
+  border-color: #353d3a;
+  color: #ffffff;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  padding: 14px 20px;
+}
+
+/* 左側分類標題欄 (Day 1~3, Transportation, Food) */
+.planner-table .row-header {
+  background-color: #eae8e1;
+  font-weight: 600;
+  color: #222;
+}
+
+/* 偶數列微調底色 */
+.planner-table .alt-row td:not(.row-header) {
+  background-color: #f5f3ee;
+}
+
+/* Tokyo DisneySea 跨欄強調樣式 */
+.planner-table .highlight-cell {
+  background-color: #f3e5dc;
+  color: #983c2d;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* 預算表金額靠右對齊 */
+.planner-table .cost {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 設定各欄位寬度比例更貼近設計稿 */
+.itinerary-table th:nth-child(1) { width: 18%; }
+.itinerary-table th:nth-child(2) { width: 34%; }
+.itinerary-table th:nth-child(3) { width: 26%; }
+.itinerary-table th:nth-child(4) { width: 22%; }
+
+.budget-table th:nth-child(1) { width: 40%; }
+.budget-table th:nth-child(2) { width: 22%; }
+.budget-table th:nth-child(3) { width: 38%; }
+
+/* =========================================
+   Footer 頁尾區塊
+   ========================================= */
+.footer {
+  background-color: #212426;
+  color: #ffffff;
+  padding: 50px 0;
+  margin-top: 40px;
+}
+
+.footer .page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.footer-title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.4rem;
+  font-weight: 400;
+  margin-bottom: 4px;
+}
+
+.footer-sub {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.back-to-top {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  transition: color 0.2s ease;
+}
+
+.back-to-top:hover {
+  color: #ffffff;
+}
